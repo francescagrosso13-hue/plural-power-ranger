@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Ranger – Plural Mission</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0d1320;color:#fff}
+.wrap{max-width:1050px;margin:auto;padding:20px}.arena{background:linear-gradient(135deg,#101827,#263957);border:2px solid #56657e;border-radius:24px;padding:22px;box-shadow:0 18px 45px #0008}
+.top{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}.logo{font-size:clamp(26px,5vw,48px);font-weight:900;font-style:italic}.sub{color:#ffd43b;font-weight:900;letter-spacing:2px}.status{background:#080b12;border:2px solid #68758a;border-radius:14px;padding:10px 15px;min-width:180px}.bar{height:13px;background:#303847;border-radius:20px;overflow:hidden;margin-top:7px}.fill{height:100%;width:0;background:linear-gradient(90deg,#f33,#ffd43b);transition:.35s}
+.stage{display:grid;grid-template-columns:330px 1fr;gap:20px;align-items:center;margin-top:22px}
+.rangerbox{min-height:380px;display:flex;align-items:center;justify-content:center;position:relative}
+.ranger{width:125px;height:215px;border-radius:48px 48px 28px 28px;background:linear-gradient(90deg,#790e15,#ef2a31 50%,#8c1118);position:relative;box-shadow:0 18px 45px #0009;transition:.35s;transform-origin:center bottom}
+.helmet{position:absolute;width:105px;height:105px;border-radius:50%;background:linear-gradient(135deg,#ff4c52,#72090f);top:-74px;left:10px;border:6px solid #ddd;transition:.35s}
+.visor{position:absolute;left:16px;top:33px;width:72px;height:27px;background:#101318;border-radius:50%;transform:skewX(-12deg);box-shadow:inset 0 0 9px #aef}
+.diamond{position:absolute;width:48px;height:48px;background:#eee;transform:rotate(45deg);left:38px;top:42px}
+.arm{position:absolute;width:43px;height:132px;background:#b8161d;border-radius:25px;top:53px}.left{left:-31px;transform:rotate(18deg)}.right{right:-31px;transform:rotate(-18deg)}
+.fist{position:absolute;width:48px;height:48px;border-radius:50%;background:#eee;bottom:-12px;left:-3px}
+.armor,.boots,.shoulders,.belt,.energy{display:none;position:absolute}
+.armor{left:14px;top:82px;width:97px;height:85px;background:linear-gradient(135deg,#ddd,#fff,#aaa);clip-path:polygon(12% 0,88% 0,100% 100%,0 100%);z-index:2}
+.belt{display:block;left:13px;top:174px;width:99px;height:17px;background:#222;border:3px solid #ddd;z-index:3}
+.shoulders{width:150px;height:34px;left:-13px;top:52px;background:#d7d7d7;border-radius:20px;z-index:1}
+.boots{width:48px;height:55px;bottom:-24px;background:#ddd;border-radius:10px;z-index:1}.boots.l{left:12px}.boots.r{right:12px}
+.energy{inset:-70px -70px -60px;border:5px solid #ffd43b;border-radius:50%;box-shadow:0 0 35px #ffd43b;z-index:-1}
+.ranger.level2 .boots{display:block}.ranger.level3 .armor,.ranger.level3 .shoulders{display:block}.ranger.level4 .helmet{box-shadow:0 0 30px #62d9ff}.ranger.level4 .energy{display:block}.ranger.level5{transform:scale(1.08);filter:brightness(1.18)}.ranger.level5 .armor,.ranger.level5 .shoulders,.ranger.level5 .energy{display:block}.ranger.level5 .energy{border-color:#fff;box-shadow:0 0 45px #fff,0 0 90px #ffd43b}.powerlabel{position:absolute;bottom:4px;font-size:22px;font-weight:900;color:#ffd43b;text-shadow:0 2px 8px #000}
+.card{background:#f8f9fb;color:#111;border:4px solid #d52229;border-radius:18px;padding:22px}.rule{font-size:13px;font-weight:900;color:#c41e24}.question{font-size:clamp(26px,4vw,42px);font-weight:900;margin:12px 0 20px}.answers{display:grid;gap:10px}.ans{border:3px solid #d0d4da;border-radius:12px;background:#fff;padding:14px;font-size:18px;font-weight:900;text-align:left;cursor:pointer}.ans.correct{background:#dff7e8;border-color:#16834b}.ans.wrong{background:#ffe1e1;border-color:#b42318}.feedback{min-height:45px;padding:10px;text-align:center;font-weight:900}.next,.restart{width:100%;padding:14px;border:0;border-radius:12px;background:#d92229;color:#fff;font-weight:900;font-size:17px;cursor:pointer}.next:disabled{opacity:.45;cursor:not-allowed}.final{text-align:center;padding:40px}.hidden{display:none}.big{font-size:80px}
+@media(max-width:720px){.stage{grid-template-columns:1fr}.rangerbox{min-height:300px}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="arena">
+<div class="top"><div><div class="logo">POWER RANGER</div><div class="sub">PLURAL MISSION</div></div>
+<div class="status"><b id="counter">QUESTION 1 / 15</b><br>POWER: <b id="score">0</b> / 15<div class="bar"><div id="fill" class="fill"></div></div></div></div>
+<div id="game" class="stage">
+<div class="rangerbox"><div id="ranger" class="ranger"><div class="helmet"><div class="visor"></div></div><div class="diamond"></div><div class="shoulders"></div><div class="armor"></div><div class="belt"></div><div class="arm left"><div class="fist"></div></div><div class="arm right"><div class="fist"></div></div><div class="boots l"></div><div class="boots r"></div><div class="energy"></div></div><div id="powerlabel" class="powerlabel">READY!</div></div>
+<div class="card"><div id="rule" class="rule"></div><div id="question" class="question"></div><div id="answers" class="answers"></div><div id="feedback" class="feedback" aria-live="polite"></div><button id="next" class="next" disabled>CHECK / NEXT</button></div>
+</div>
+<div id="final" class="final hidden"><div class="big">⚡🦸‍♂️⚡</div><h2>MISSION COMPLETE!</h2><p id="result"></p><p id="message"></p><button id="restart" class="restart">PLAY AGAIN</button></div>
+</div></div>
+<script>
+const qs=[
+["ONE CAT → TWO ___","CATS",["CATS","CAT","CATES"],"RULE: ADD -S"],
+["ONE BOOK → TWO ___","BOOKS",["BOOKS","BOOKES","BOOK"],"RULE: ADD -S"],
+["ONE BUS → TWO ___","BUSES",["BUSSES","BUSES","BUS"],"RULE: ADD -ES"],
+["ONE BOX → TWO ___","BOXES",["BOXS","BOXES","BOX"],"RULE: ADD -ES"],
+["ONE WATCH → TWO ___","WATCHES",["WATCHS","WATCHES","WATCH"],"RULE: ADD -ES"],
+["ONE BABY → TWO ___","BABIES",["BABYS","BABIES","BABYES"],"RULE: CONSONANT + Y → IES"],
+["ONE CITY → TWO ___","CITIES",["CITYS","CITIES","CITYES"],"RULE: CONSONANT + Y → IES"],
+["ONE PEN → TWO ___","PENS",["PENS","PENES","PEN"],"RULE: ADD -S"],
+["ONE DISH → TWO ___","DISHES",["DISHES","DISHS","DISH"],"RULE: ADD -ES"],
+["ONE FAMILY → TWO ___","FAMILIES",["FAMILYS","FAMILIES","FAMILYIES"],"RULE: CONSONANT + Y → IES"],
+["ONE CAR → TWO ___","CARS",["CARS","CARES","CAR"],"RULE: ADD -S"],
+["ONE CLASS → TWO ___","CLASSES",["CLASS","CLASSS","CLASSES"],"RULE: ADD -ES"],
+["ONE STORY → TWO ___","STORIES",["STORYS","STORIES","STORYES"],"RULE: CONSONANT + Y → IES"],
+["ONE FLOWER → TWO ___","FLOWERS",["FLOWERS","FLOWERES","FLOWER"],"RULE: ADD -S"],
+["ONE CHURCH → TWO ___","CHURCHES",["CHURCHS","CHURCHES","CHURCH"],"RULE: ADD -ES"]
+];
+let i=0,score=0,answered=false;
+const $=id=>document.getElementById(id);
+function render(){
+ answered=false;let x=qs[i];$("counter").textContent=`QUESTION ${i+1} / 15`;$("rule").textContent=x[3];$("question").textContent=x[0];$("feedback").textContent="";$("next").disabled=true;$("next").textContent=i===14?"FINISH MISSION":"CHECK / NEXT";$("answers").innerHTML="";
+ x[2].forEach(v=>{let b=document.createElement("button");b.className="ans";b.textContent=v;b.onclick=()=>pick(b,v);$("answers").appendChild(b)})
+}
+function pick(btn,v){
+ if(answered)return;answered=true;let x=qs[i];document.querySelectorAll(".ans").forEach(b=>b.disabled=true);
+ if(v===x[1]){score++;btn.classList.add("correct");$("feedback").textContent="⚡ CORRECT! POWER +1!";$("powerlabel").textContent=score>=15?"ULTIMATE POWER!":score>=12?"SUPER RANGER!":score>=9?"ARMOR POWER!":score>=6?"POWER UP!":"READY!";}
+ else{btn.classList.add("wrong");document.querySelectorAll(".ans").forEach(b=>{if(b.textContent===x[1])b.classList.add("correct")});$("feedback").textContent="❌ The correct answer is "+x[1]+". Look at the rule!";$("powerlabel").textContent="TRAIN AGAIN!"}
+ $("score").textContent=score;$("fill").style.width=(score/15*100)+"%";$("ranger").className="ranger level"+Math.min(5,Math.floor(score/3)+1);$("next").disabled=false;
+}
+$("next").onclick=()=>{if(!answered)return;if(i<14){i++;render()}else{$("game").classList.add("hidden");$("final").classList.remove("hidden");$("result").textContent=`YOUR SCORE: ${score} / 15`;$("message").textContent=score===15?"⚡ PERFECT! ULTIMATE POWER!":score>=12?"💪 AMAZING TRAINING!":"🔧 GOOD TRY! PLAY AGAIN AND POWER UP!"}};
+$("restart").onclick=()=>{i=0;score=0;$("score").textContent="0";$("fill").style.width="0";$("ranger").className="ranger level1";$("powerlabel").textContent="READY!";$("final").classList.add("hidden");$("game").classList.remove("hidden");render()};
+render();
+</script>
+</body>
+</html>
